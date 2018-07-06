@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">SQLiteViewer</string>
+    <string name="about_credits">Credits</string>
+    <string name="about_libraries">Libraries</string>
+    <string name="about_opensource">Open Source</string>
+    <string name="app_icon_credit_Niko">App Icons by %1$s\n\nwebsite: %2$s</string>
+    <string name="libsu_library_credit">Root library by %1$s\n\nGithub url: %2$s\n\nLicense: %3$s</string>
+    <string name="tableview_library_credit">TableView library by %1$s\n\nGithub url: %2$s\n\nLicense: %3$s</string>
+    <string name="opensource_info">This app is opensourced and the source could be obained at \n\nGitlab url: %1$s\n\nLicense: %2$s</string>
+    <string name="menu_about_title">About</string>
+    <string name="storage_permission_request_title">Allow access to storage</string>
+    <string name="storage_permission_request_summary">Permission to access storage is required to read the databases.Allow?</string>
+    <string name="ok">Ok</string>
+    <string name="title_activity_table_list">TableList</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="action_search">search</string>
+    <string name="search_hint">search ...</string>
+    <string name="preference_settings_table_row_count_key">table_row_count</string>
+    <string name="preference_settings_table_row_count_title">Number of rows per page</string>
+    <string name="preference_settings_table_row_count_summary">Set the number of rows displayed per page</string>
+</resources>
