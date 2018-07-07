@@ -8,7 +8,7 @@ Requires Kitkat and above (SDK 19+)
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="100"/></a>
 
 ## User Support
-Telegram: [https://goo.gl/TDs42r](https://goo.gl/TDs42r)
+Telegram: [https://goo.gl/iP2Lpz](https://goo.gl/iP2Lpz)
 
 [![Telegram Support QR](https://goo.gl/iP2Lpz.qr "Telegram Support QR")](https://goo.gl/iP2Lpz.qr)
 
