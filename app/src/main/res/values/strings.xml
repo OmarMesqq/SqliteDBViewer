@@ -20,4 +20,7 @@
     <string name="preference_settings_table_row_count_summary">Set the number of rows displayed per page</string>
     <string name="menu_donate">Donate</string>
     <string name="donate_activity_label">Donate</string>
+    <string name="preference_settings_splash_screen_key">splash_screen_key</string>
+    <string name="preference_settings_splash_screen_title">Enable/Disable splash screen</string>
+    <string name="preference_settings_splash_screen_summary">Settings to enable/disable splash screen</string>
 </resources>

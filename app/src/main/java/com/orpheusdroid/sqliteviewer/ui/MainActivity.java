@@ -1,8 +1,9 @@
 package com.orpheusdroid.sqliteviewer.ui;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.orpheusdroid.sqliteviewer.R;
@@ -14,6 +15,13 @@ public class MainActivity extends AwesomeSplash {
     @Override
     public void initSplash(ConfigSplash configSplash) {
         //Customize Circular Reveal
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        if (!prefs.getBoolean(getString(R.string.preference_settings_splash_screen_key), true)) {
+            startApp();
+            return;
+        }
         configSplash.setBackgroundColor(R.color.colorAccent); //any color you want form colors.xml
         configSplash.setAnimCircularRevealDuration(1000); //int ms
         configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
@@ -35,14 +43,17 @@ public class MainActivity extends AwesomeSplash {
 
     @Override
     public void animationsFinished() {
-        final Activity a = this;
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(a, FileManagerActivity.class));
-                finish();
+                startApp();
             }
         }, 500);
+    }
+
+    private void startApp() {
+        startActivity(new Intent(this, FileManagerActivity.class));
+        finish();
     }
 }

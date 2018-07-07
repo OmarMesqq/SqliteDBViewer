@@ -13,4 +13,14 @@
             android:title="@string/preference_settings_table_row_count_title" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:summary="Settings for splash screen"
+        android:title="Splash Screen">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/preference_settings_splash_screen_key"
+            android:summary="@string/preference_settings_splash_screen_summary"
+            android:title="@string/preference_settings_splash_screen_title" />
+    </PreferenceCategory>
+
 </PreferenceScreen>
