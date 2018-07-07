@@ -40,7 +40,7 @@ public class MainActivity extends AwesomeSplash {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(a, ListItem.class));
+                startActivity(new Intent(a, FileManagerActivity.class));
                 finish();
             }
         }, 500);

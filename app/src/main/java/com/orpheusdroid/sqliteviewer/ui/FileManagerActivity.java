@@ -39,7 +39,7 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ListItem extends AppCompatActivity implements IListItemClickListener {
+public class FileManagerActivity extends AppCompatActivity implements IListItemClickListener {
     private RecyclerView FilesView;
     private LinearLayoutManager mLayoutManager;
     private LinearLayout dirUp;
@@ -154,7 +154,7 @@ public class ListItem extends AppCompatActivity implements IListItemClickListene
                     .setNeutralButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            ActivityCompat.requestPermissions(ListItem.this,
+                            ActivityCompat.requestPermissions(FileManagerActivity.this,
                                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     1000);
                         }
@@ -268,9 +268,9 @@ public class ListItem extends AppCompatActivity implements IListItemClickListene
         @Override
         protected void onPostExecute(ArrayList<FilesModel> filesModels) {
             if (hasListingFailed)
-                Toast.makeText(ListItem.this, "No root access. Cannot list root files", Toast.LENGTH_SHORT)
+                Toast.makeText(FileManagerActivity.this, "No root access. Cannot list root files", Toast.LENGTH_SHORT)
                         .show();
-            ListItem.this.files = filesModels;
+            FileManagerActivity.this.files = filesModels;
             progressBar.setVisibility(View.GONE);
             FilesView.setClickable(true);
             dirUp.setClickable(true);
