@@ -35,6 +35,7 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
 
     public void changeAdapter(ArrayList<FilesModel> files) {
         this.files = files;
+        this.filesFiltered = files;
         notifyDataSetChanged();
     }
 
