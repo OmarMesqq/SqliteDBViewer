@@ -6,9 +6,13 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.evrencoskun.tableview.TableView;
@@ -26,7 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableDataActivity extends AppCompatActivity implements View.OnClickListener {
+public class TableDataActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private MyTableViewAdapter mTableViewAdapter;
     private TableModel model;
     private DataBase db;
@@ -38,6 +42,7 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
     private long totalRows = 0;
     private List<ColumnHeader> columnHeaders;
     private List<List<Cell>> tableData;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,11 +133,45 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
         return str.substring(0, pos);
     }
 
+    private void refreshTableViewData() {
+        tableData = generateTableData();
+        mTableViewAdapter.refreshData(tableData, generateRowHeader());
+    }
+
+    private List<String> addValuesToSpinner() {
+        long divident = totalRows / tableViewRowCount;
+        divident = (totalRows / tableViewRowCount > 0) ? divident + 1 : divident;
+
+        List<String> spinnerItems = new ArrayList<>();
+        for (int i = 1; i <= divident; i++)
+            spinnerItems.add(String.valueOf(i));
+
+        return spinnerItems;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_tabledata, menu);
+
+        MenuItem item = menu.findItem(R.id.spinner);
+        Spinner spinner = (Spinner) item.getActionView();
+
+        adapter = new ArrayAdapter<>(this, R.layout.table_data_spinner_text_view, addValuesToSpinner());
+        adapter.setDropDownViewResource(R.layout.table_data_spinner_drop_down_items);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+        //addValuesToSpinner(adapter);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.spinner:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -146,18 +185,29 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
                 if ((offset + tableViewRowCount) < totalRows) {
                     offset += tableViewRowCount;
                     Log.d(Const.TAG, "Total: " + totalRows + ", offset :" + offset);
-                    tableData = generateTableData();
-                    mTableViewAdapter.refreshData(tableData, generateRowHeader());
+                    refreshTableViewData();
                 }
                 break;
             case R.id.previous_btn:
                 if (offset < totalRows && offset != 0) {
                     offset = ((offset - tableViewRowCount) > 0) ? offset - tableViewRowCount : 0;
                     Log.d(Const.TAG, "Total: " + totalRows + ", offset :" + offset);
-                    tableData = generateTableData();
-                    mTableViewAdapter.refreshData(tableData, generateRowHeader());
+                    refreshTableViewData();
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        int val = Integer.valueOf(adapter.getItem(i)) - 1;
+        offset = val * tableViewRowCount;
+        refreshTableViewData();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+        offset = 0;
+        refreshTableViewData();
     }
 }
