@@ -3,7 +3,7 @@
     <string name="about_credits">Credits</string>
     <string name="about_libraries">Libraries</string>
     <string name="about_opensource">Open Source</string>
-    <string name="app_icon_credit_Niko">App Icons by %1$s\n\nwebsite: %2$s</string>
+    <string name="app_icon_credit_Niko">App Icons by %1$s\n\nwebsite: %2$s\n\nAll rights reserved by the designer with exclusive forever license for the official app only</string>
     <string name="libsu_library_credit">Root library by %1$s\n\nGithub url: %2$s\n\nLicense: %3$s</string>
     <string name="tableview_library_credit">TableView library by %1$s\n\nGithub url: %2$s\n\nLicense: %3$s</string>
     <string name="opensource_info">This app is opensourced and the source could be obained at \n\nGitlab url: %1$s\n\nLicense: %2$s</string>
@@ -18,4 +18,6 @@
     <string name="preference_settings_table_row_count_key">table_row_count</string>
     <string name="preference_settings_table_row_count_title">Number of rows per page</string>
     <string name="preference_settings_table_row_count_summary">Set the number of rows displayed per page</string>
+    <string name="menu_donate">Donate</string>
+    <string name="donate_activity_label">Donate</string>
 </resources>

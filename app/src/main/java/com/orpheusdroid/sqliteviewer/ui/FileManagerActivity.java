@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.orpheusdroid.sqliteviewer.Adapter.FileManagerAdapter;
 import com.orpheusdroid.sqliteviewer.Const;
+import com.orpheusdroid.sqliteviewer.DonateActivity;
 import com.orpheusdroid.sqliteviewer.R;
 import com.orpheusdroid.sqliteviewer.listeners.IListItemClickListener;
 import com.orpheusdroid.sqliteviewer.model.filemanager.FilesModel;
@@ -244,6 +245,9 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
                 return true;
             case R.id.menu_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.donate:
+                startActivity(new Intent(this, DonateActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
