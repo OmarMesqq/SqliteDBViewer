@@ -14,7 +14,7 @@ stages:
 build:
   stage: build
   script:
-    - ./gradlew assembleDebug
+    - ./gradlew assembleFdroidDebug
   artifacts:
     paths:
     - app/build/outputs/
