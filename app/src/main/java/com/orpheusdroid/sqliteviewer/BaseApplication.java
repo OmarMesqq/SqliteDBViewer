@@ -13,17 +13,17 @@ import static com.orpheusdroid.sqliteviewer.Const.TAG;
  *
  * @author Vijai Chandra Prasad .R
  */
-public class Application extends Shell.ContainerApp {
+public class BaseApplication extends Shell.ContainerApp {
 
     @Override
     public void onCreate() {
         super.onCreate();
         Shell.setFlags(Shell.FLAG_REDIRECT_STDERR);
         //Shell.verboseLogging(BuildConfig.DEBUG);
-        Shell.setInitializer(ExampleInitializer.class);
+        Shell.setInitializer(ShellInitializer.class);
     }
 
-    private static class ExampleInitializer extends Shell.Initializer {
+    private static class ShellInitializer extends Shell.Initializer {
         @Override
         public boolean onShellInit(Context context, Shell shell) {
             Log.d(TAG, "onShellInit");
