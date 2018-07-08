@@ -216,7 +216,7 @@ public class MyTableViewAdapter extends AbstractTableAdapter<ColumnHeader, RowHe
      * This is sample CellViewHolder class
      * This viewHolder must be extended from AbstractViewHolder class instead of RecyclerView.ViewHolder.
      */
-    final class MyCellViewHolder extends AbstractViewHolder {
+    public final class MyCellViewHolder extends AbstractViewHolder {
 
         public TextView cell_textview;
         public LinearLayout ItemView;

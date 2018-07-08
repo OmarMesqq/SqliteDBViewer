@@ -25,6 +25,7 @@ import com.orpheusdroid.sqliteviewer.model.TabelModel.ColumnHeader;
 import com.orpheusdroid.sqliteviewer.model.TabelModel.FieldModel;
 import com.orpheusdroid.sqliteviewer.model.TabelModel.RowHeader;
 import com.orpheusdroid.sqliteviewer.model.TabelModel.TableModel;
+import com.orpheusdroid.sqliteviewer.utils.TableCellClickListener;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -80,7 +81,7 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
         tableData = generateTableData();
 
         if (tableData.size() == 0) {
-            Toast.makeText(this, "Table is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.toast_message_table_empty, Toast.LENGTH_SHORT).show();
             //finish();
         }
 
@@ -97,6 +98,7 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
 
         mTableViewAdapter = new MyTableViewAdapter(this);
         table.setAdapter(mTableViewAdapter);
+        table.setTableViewListener(new TableCellClickListener(this));
 
         mTableViewAdapter.setAllItems(columnHeaders, Rowheader, tableData);
     }
@@ -109,7 +111,6 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
         List<RowHeader> rowHeader = new ArrayList<>();
         long localOffset = offset;
         for (long i = 0; i < tableData.size(); i++) {
-            Log.d(Const.TAG, "Row header: " + i);
             rowHeader.add(new RowHeader(String.valueOf(i), String.valueOf(localOffset += 1)));
         }
         return rowHeader;
