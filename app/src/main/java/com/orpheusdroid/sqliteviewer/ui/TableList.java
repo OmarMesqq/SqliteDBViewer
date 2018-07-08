@@ -86,6 +86,12 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
     }
 
     @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
 
@@ -131,6 +137,11 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
 
     @Override
     public void onClick(int position) {
+
+        if (!db.isOpen()) {
+            Toast.makeText(this, R.string.toast_message_database_not_open, Toast.LENGTH_SHORT).show();
+            finish();
+        }
         String tableName = tables.get(position);
         Intent tableData = new Intent(this, TableDataActivity.class);
         tableData.putExtra(Const.DBTableNameIntent, tableName);
