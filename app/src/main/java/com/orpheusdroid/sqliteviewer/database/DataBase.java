@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class DataBase {
     private boolean isRoot = false;
     private String _dbPath;
     private String originalDBPath;
+    private int customQueryCount = 0;
 
     private DataBase() {
     }
@@ -294,6 +296,11 @@ public class DataBase {
         return count;
     }
 
+    public long getCustomQueryCount(String customQuery) {
+        Cursor cursor = _db.rawQuery(customQuery, null);
+        return cursor.getCount();
+    }
+
     public List<List<Cell>> getTableData(String tableName, int limit, long offsetFrom) {
         int size = getNumCols(tableName);
         String[] cols = getFieldsNames(tableName);
@@ -325,6 +332,63 @@ public class DataBase {
                         data = "(BLOB)";
                 }
                 colData.add(new Cell(String.valueOf(colIndex), data));
+            }
+            Tabledata.add(colData);
+        }
+        cursor.close();
+        //dumpData(Tabledata);
+        return Tabledata;
+    }
+
+    public ArrayList<FieldModel> getCustomQueryFields(String sql) {
+        testDB();
+
+        int limitpos = sql.toLowerCase().contains("limit") ? sql.toLowerCase().indexOf("limit") : 0;
+        String columnSQL = (limitpos != 0) ? sql.substring(0, limitpos) + " LIMIT 1" : sql + " LIMIT 1";
+
+        ArrayList<FieldModel> fields = new ArrayList<>();
+
+        Cursor res = _db.rawQuery(columnSQL, null);
+        int colCount = res.getColumnCount();
+        while (res.moveToNext()) {
+            for (int i = 0; i < colCount; i++) {
+                FieldModel field = new FieldModel();
+                field.setFieldName(res.getColumnName(i));
+                field.setFieldType(Const.getColumnDataType(res.getType(i)));
+                fields.add(field);
+            }
+        }
+
+        res.close();
+        return fields;
+    }
+
+    public List<List<Cell>> runQuery(String query, int limit, long offsetFrom) throws SQLiteException {
+        int limitpos = query.toLowerCase().contains("limit") ? query.toLowerCase().indexOf("limit") : 0;
+        StringBuilder customSQL = new StringBuilder();
+        if (limitpos > 0) {
+            customSQL.append(query.substring(0, limitpos));
+        } else
+            customSQL.append(query);
+
+        customSQL.append(" LIMIT ").append(limit).append(" OFFSET ").append(offsetFrom);
+
+        Cursor cursor = _db.rawQuery(customSQL.toString(), null);
+
+        List<List<Cell>> Tabledata = new ArrayList<>();
+        while (cursor.moveToNext()) {
+            List<Cell> colData = new ArrayList<>();
+            String data = "";
+            int colCount = cursor.getColumnCount();
+            for (int i = 0; i < colCount; i++) {
+                try {
+                    data = cursor.getString(i);
+                } catch (SQLException e) {
+                    //e.printStackTrace();
+                    if (e.getMessage().contains("Unable to convert BLOB to string"))
+                        data = "(BLOB)";
+                }
+                colData.add(new Cell(String.valueOf(i), data));
             }
             Tabledata.add(colData);
         }

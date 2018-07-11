@@ -2,16 +2,23 @@ package com.orpheusdroid.sqliteviewer.ui;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.orpheusdroid.sqliteviewer.Adapter.TableListAdapter;
@@ -35,6 +42,7 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table_list);
+        FloatingActionButton customQuery = findViewById(R.id.fab);
 
         if (getIntent() != null && getIntent().hasExtra(Const.DBPathIntent))
             dbPath = getIntent().getStringExtra(Const.DBPathIntent);
@@ -52,6 +60,13 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
         }
 
         tableList = findViewById(R.id.table_rv);
+        customQuery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(TableList.this, "Custom Query clicked", Toast.LENGTH_SHORT).show();
+                createCustomQueryDialog();
+            }
+        });
 
         //db = new DataBase(dbPath, this);
         db = DataBase.getInstance(this);
@@ -72,6 +87,42 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
             Toast.makeText(this, "Not a database", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    private void createCustomQueryDialog() {
+        AlertDialog.Builder customQueryBuilderDialog = new AlertDialog.Builder(this);
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.content_custom_query_alert_view, null);
+        customQueryBuilderDialog.setView(dialogView);
+
+        final EditText editText = dialogView.findViewById(R.id.custom_query_editText);
+        editText.setText("SELECT ");
+        editText.setSelection(editText.getText().length());
+
+        customQueryBuilderDialog.setTitle("Custom Query");
+        customQueryBuilderDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                showTableDataActivity(Const.DBCustomQueryIntent, editText.getText().toString());
+            }
+        });
+        customQueryBuilderDialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        customQueryBuilderDialog.setCancelable(true);
+        AlertDialog alertDialog = customQueryBuilderDialog.create();
+        alertDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        alertDialog.show();
+    }
+
+    private void showTableDataActivity(String key, String value) {
+        Intent tableData = new Intent(this, TableDataActivity.class);
+        tableData.putExtra(key, value);
+        startActivity(tableData);
     }
 
     private void setupRecyclerView() {
@@ -143,8 +194,6 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
             finish();
         }
         String tableName = tables.get(position);
-        Intent tableData = new Intent(this, TableDataActivity.class);
-        tableData.putExtra(Const.DBTableNameIntent, tableName);
-        startActivity(tableData);
+        showTableDataActivity(Const.DBTableNameIntent, tableName);
     }
 }

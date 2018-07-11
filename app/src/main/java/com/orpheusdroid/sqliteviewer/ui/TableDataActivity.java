@@ -1,9 +1,12 @@
 package com.orpheusdroid.sqliteviewer.ui;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -24,7 +27,6 @@ import com.orpheusdroid.sqliteviewer.model.TabelModel.Cell;
 import com.orpheusdroid.sqliteviewer.model.TabelModel.ColumnHeader;
 import com.orpheusdroid.sqliteviewer.model.TabelModel.FieldModel;
 import com.orpheusdroid.sqliteviewer.model.TabelModel.RowHeader;
-import com.orpheusdroid.sqliteviewer.model.TabelModel.TableModel;
 import com.orpheusdroid.sqliteviewer.utils.TableCellClickListener;
 
 import java.io.File;
@@ -33,16 +35,14 @@ import java.util.List;
 
 public class TableDataActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private MyTableViewAdapter mTableViewAdapter;
-    private TableModel model;
     private DataBase db;
     private String tableName;
-    private Button previous;
-    private Button next;
+    private String customQuery = "";
+    private boolean isCustomQuery = false;
     private int tableViewRowCount;
     private long offset = 0;
     private long totalRows = 0;
-    private List<ColumnHeader> columnHeaders;
-    private List<List<Cell>> tableData;
+    private List<List<Cell>> tableData = new ArrayList<>();
     private ArrayAdapter<String> adapter;
 
     @Override
@@ -60,6 +60,12 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
 
         if (getIntent() != null && getIntent().hasExtra(Const.DBTableNameIntent))
             tableName = getIntent().getStringExtra(Const.DBTableNameIntent);
+        else if (getIntent() != null && getIntent().hasExtra(Const.DBCustomQueryIntent)) {
+            Log.d(Const.TAG, "is custom query");
+            tableName = "Custom Query";
+            customQuery = getIntent().getStringExtra(Const.DBCustomQueryIntent);
+            isCustomQuery = true;
+        }
 
         String dbName = new File(db.get_dbPath()).getName();
         if (actionBar != null) {
@@ -72,13 +78,25 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
                 prefs.getString(getString(R.string.preference_settings_table_row_count_key), "50")
         );
 
-        previous = findViewById(R.id.previous_btn);
-        next = findViewById(R.id.next_btn);
+        Button previous = findViewById(R.id.previous_btn);
+        Button next = findViewById(R.id.next_btn);
         previous.setOnClickListener(this);
         next.setOnClickListener(this);
 
-        totalRows = db.getCount(tableName);
-        tableData = generateTableData();
+        ArrayList<FieldModel> fields = new ArrayList<>();
+        if (isCustomQuery) {
+            try {
+                tableData = db.runQuery(customQuery, tableViewRowCount, offset);
+                fields = db.getCustomQueryFields(customQuery);
+                totalRows = db.getCustomQueryCount(customQuery);
+            } catch (SQLiteException e) {
+                showCustomQueryErrorAlert(e.getMessage());
+            }
+        } else {
+            tableData = generateTableData();
+            fields = db.getFields(tableName);
+            totalRows = db.getCount(tableName);
+        }
 
         if (tableData.size() == 0) {
             Toast.makeText(this, R.string.toast_message_table_empty, Toast.LENGTH_SHORT).show();
@@ -89,11 +107,10 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
 
         Log.d(Const.TAG, "Data for " + db.get_dbPath() + "." + tableName);
 
-        columnHeaders = new ArrayList<>();
-        for (FieldModel field : db.getFields(tableName))
+        List<ColumnHeader> columnHeaders = new ArrayList<>();
+        for (FieldModel field : fields)
             columnHeaders.add(new ColumnHeader("1", field.getHeaderName()));
 
-        model = new TableModel(this);
         List<RowHeader> Rowheader = generateRowHeader();
 
         mTableViewAdapter = new MyTableViewAdapter(this);
@@ -116,6 +133,30 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
         return rowHeader;
     }
 
+    private List<List<Cell>> runCustomQuery(String query) {
+        try {
+            return db.runQuery(query, tableViewRowCount, offset);
+        } catch (SQLiteException e) {
+            showCustomQueryErrorAlert(e.getMessage());
+        }
+        return null;
+    }
+
+    private void showCustomQueryErrorAlert(String message) {
+        Toast.makeText(this, "Query execution failed", Toast.LENGTH_SHORT).show();
+        new AlertDialog.Builder(this)
+                .setTitle("SQL query failed")
+                .setMessage(message)
+                .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setCancelable(false)
+                .show();
+    }
+
     private String stripExtension(String str) {
         // Handle null case specially.
 
@@ -135,7 +176,10 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void refreshTableViewData() {
-        tableData = generateTableData();
+        if (isCustomQuery)
+            tableData = runCustomQuery(customQuery);
+        else
+            tableData = generateTableData();
         mTableViewAdapter.refreshData(tableData, generateRowHeader());
     }
 
