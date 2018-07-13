@@ -12,6 +12,10 @@ Telegram: [https://goo.gl/iP2Lpz](https://goo.gl/iP2Lpz)
 
 [![Telegram Support QR](https://goo.gl/iP2Lpz.qr "Telegram Support QR")](https://goo.gl/iP2Lpz.qr)
 
+Microsoft Teams:
+URL:    [https://goo.gl/FCwfGG](https://goo.gl/FCwfGG)
+Team code: va4ek1d
+
 ## Donation/Payments
 #### Bitcoin:     1Cbf61y8XNx3BLWvoZB71x4XgBKB7r8BuB
 #### PayPal:      [![Paypal Donate](https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-pill-paypal-26px.png)](https://paypal.me/vijaichander/5)
@@ -64,6 +68,7 @@ Open Android Studio -> File -> Import Project -> Choose the cloned project folde
 
 ## Contributions
 Any contribution to the app is welcome in the form of pull requests.
+I'm available on Microsoft Team for developer's discussion on the "Developers support" channel. Please feel free to join the team for discussion
 
 ## License and copyright infringements
 I will consider any kind of license or copyright infringements seriously and will send copyright claim notice or license infringement notice to anyone who is not adhering to them.
