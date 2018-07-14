@@ -245,8 +245,7 @@ public class DataBase {
         // Get field type
         // SELECT typeof(sql) FROM sqlite_master where typeof(sql) <> "null" limit 1
         testDB();
-        String sql = "select * from [" + table + "] limit 1";
-        sql = "pragma table_info([" + table + "])";
+        String sql = "pragma table_info([" + table + "])";
         Cursor res = _db.rawQuery(sql, null);
 
         ArrayList<FieldModel> fields = new ArrayList<>();
@@ -291,17 +290,17 @@ public class DataBase {
     }
 
     public long getCount(String tableName) {
-        long count = DatabaseUtils.queryNumEntries(_db, tableName);
-        return count;
+        return DatabaseUtils.queryNumEntries(_db, tableName);
     }
 
     public long getCustomQueryCount(String customQuery) {
         Cursor cursor = _db.rawQuery(customQuery, null);
-        return cursor.getCount();
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 
     public List<List<Cell>> getTableData(String tableName, int limit, long offsetFrom) {
-        int size = getNumCols(tableName);
         String[] cols = getFieldsNames(tableName);
 
         StringBuilder sql = new StringBuilder().append("Select ");
@@ -316,7 +315,6 @@ public class DataBase {
         Log.d(Const.TAG, "Query " + sql.toString());
 
         Cursor cursor = _db.rawQuery(sql.toString(), null);
-        //cursor.moveToFirst();
         List<List<Cell>> Tabledata = new ArrayList<>();
         while (cursor.moveToNext()) {
             List<Cell> colData = new ArrayList<>();
