@@ -4,7 +4,9 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -63,7 +65,6 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
         customQuery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(TableList.this, "Custom Query clicked", Toast.LENGTH_SHORT).show();
                 createCustomQueryDialog();
             }
         });
@@ -96,14 +97,18 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
         View dialogView = inflater.inflate(R.layout.content_custom_query_alert_view, null);
         customQueryBuilderDialog.setView(dialogView);
 
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        final String customQuery = prefs.getString(Const.LAST_CUSTOM_QUERY_PREFS, "SELECT ");
+
         final EditText editText = dialogView.findViewById(R.id.custom_query_editText);
-        editText.setText("SELECT ");
+        editText.setText(customQuery);
         editText.setSelection(editText.getText().length());
 
         customQueryBuilderDialog.setTitle("Custom Query");
         customQueryBuilderDialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                prefs.edit().putString(Const.LAST_CUSTOM_QUERY_PREFS, editText.getText().toString()).apply();
                 showTableDataActivity(Const.DBCustomQueryIntent, editText.getText().toString());
             }
         });
