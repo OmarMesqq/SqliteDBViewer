@@ -39,7 +39,6 @@ public class DataBase {
     private boolean isRoot = false;
     private String _dbPath;
     private String originalDBPath;
-    private int customQueryCount = 0;
 
     private DataBase() {
     }
@@ -197,7 +196,7 @@ public class DataBase {
                 try {
                     _db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READONLY);
                 } catch (Exception e) {
-                    Log.e(Const.TAG, "testDB " + e.getLocalizedMessage().toString());
+                    Log.e(Const.TAG, "testDB " + e.getMessage());
                     e.printStackTrace();
                 }
             } else {
@@ -211,7 +210,7 @@ public class DataBase {
                 try {
                     _db = SQLiteDatabase.openDatabase(_dbPath, null, SQLiteDatabase.OPEN_READWRITE);
                 } catch (Exception e) {
-                    Log.e(Const.TAG, "testDB " + e.getLocalizedMessage().toString());
+                    Log.e(Const.TAG, "testDB " + e.getMessage());
                     e.printStackTrace();
                 }
             }
@@ -340,15 +339,28 @@ public class DataBase {
         return Tabledata;
     }
 
+    private int getLimitPosition(String query) {
+        return query.toLowerCase().contains("limit") ? query.toLowerCase().lastIndexOf("limit") : 0;
+    }
+
+    private String getLimitSubstr(String query) {
+        return query.toLowerCase().contains("limit") ?
+                query.substring(query.toLowerCase().lastIndexOf("limit", query.length())) : query;
+    }
+
     public ArrayList<FieldModel> getCustomQueryFields(String sql) {
         testDB();
-
-        int limitpos = sql.toLowerCase().contains("limit") ? sql.toLowerCase().indexOf("limit") : 0;
-        String columnSQL = (limitpos != 0) ? sql.substring(0, limitpos) + " LIMIT 1" : sql + " LIMIT 1";
+        String subSubstr = getLimitSubstr(sql);
+        int limitpos = getLimitPosition(sql);
+        StringBuilder columnSQL = new StringBuilder();
+        if (limitpos > 0 && !subSubstr.contains(")")) {
+            columnSQL.append(sql.substring(0, limitpos)).append(" LIMIT 1");
+        } else
+            columnSQL.append(sql).append(" LIMIT 1");
 
         ArrayList<FieldModel> fields = new ArrayList<>();
 
-        Cursor res = _db.rawQuery(columnSQL, null);
+        Cursor res = _db.rawQuery(columnSQL.toString(), null);
         int colCount = res.getColumnCount();
         while (res.moveToNext()) {
             for (int i = 0; i < colCount; i++) {
@@ -364,14 +376,31 @@ public class DataBase {
     }
 
     public List<List<Cell>> runQuery(String query, int limit, long offsetFrom) throws SQLiteException {
-        int limitpos = query.toLowerCase().contains("limit") ? query.toLowerCase().indexOf("limit") : 0;
+        String subSubstr = getLimitSubstr(query);
+        int limitpos = getLimitPosition(query);
         StringBuilder customSQL = new StringBuilder();
-        if (limitpos > 0) {
+        int customQueryLimit = -1; //Moved from global var
+        if (limitpos > 0 && !subSubstr.contains(")")) {
+
+            customQueryLimit = Integer.parseInt(
+                    subSubstr.toLowerCase().split("limit")[1].trim()
+            );
             customSQL.append(query.substring(0, limitpos));
         } else
             customSQL.append(query);
 
-        customSQL.append(" LIMIT ").append(limit).append(" OFFSET ").append(offsetFrom);
+        customSQL.append(" LIMIT ");
+        if (customQueryLimit != -1) {
+            if (customQueryLimit < limit) {
+                customSQL.append(customQueryLimit);
+            } else if ((offsetFrom + offsetFrom) > customQueryLimit) {
+                customSQL.append(customQueryLimit - offsetFrom).append(" OFFSET ").append(offsetFrom);
+            } else {
+                customSQL.append(limit).append(" OFFSET ").append(offsetFrom);
+            }
+        } else {
+            customSQL.append(limit).append(" OFFSET ").append(offsetFrom);
+        }
 
         Cursor cursor = _db.rawQuery(customSQL.toString(), null);
 
