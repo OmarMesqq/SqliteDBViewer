@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -83,6 +84,10 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
         previous.setOnClickListener(this);
         next.setOnClickListener(this);
 
+        BottomSheetDialog bottomBarMenu = new BottomSheetDialog(this);
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.layout_bottom_actions_menu, null);
+        bottomBarMenu.setContentView(bottomSheetView);
+
         ArrayList<FieldModel> fields = new ArrayList<>();
         if (isCustomQuery) {
             try {
@@ -115,7 +120,7 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
 
         mTableViewAdapter = new MyTableViewAdapter(this);
         table.setAdapter(mTableViewAdapter);
-        table.setTableViewListener(new TableCellClickListener(this));
+        table.setTableViewListener(new TableCellClickListener(this, bottomBarMenu));
 
         mTableViewAdapter.setAllItems(columnHeaders, Rowheader, tableData);
     }
