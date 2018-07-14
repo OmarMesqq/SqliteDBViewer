@@ -206,10 +206,15 @@ public class TableDataActivity extends AppCompatActivity implements View.OnClick
         MenuItem item = menu.findItem(R.id.spinner);
         Spinner spinner = (Spinner) item.getActionView();
 
-        adapter = new ArrayAdapter<>(this, R.layout.table_data_spinner_text_view, addValuesToSpinner());
-        adapter.setDropDownViewResource(R.layout.table_data_spinner_drop_down_items);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
+        List<String> spinnerItems = addValuesToSpinner();
+
+        if (!spinnerItems.isEmpty()) {
+            adapter = new ArrayAdapter<>(this, R.layout.table_data_spinner_text_view, spinnerItems);
+            adapter.setDropDownViewResource(R.layout.table_data_spinner_drop_down_items);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(this);
+        } else
+            item.setVisible(false);
 
         //addValuesToSpinner(adapter);
         return true;
