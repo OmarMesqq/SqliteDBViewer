@@ -19,5 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
+        android:tooltipText="@string/floating_action_button_custom_query_hint"
         app:srcCompat="@drawable/ic_db_white_24dp" />
 </android.support.design.widget.CoordinatorLayout>
