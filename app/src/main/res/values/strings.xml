@@ -38,4 +38,6 @@
     <string name="export_fileName_dialog_title">Export CSV</string>
     <string name="export_fileName_dialog_edittext_hint">File Name</string>
     <string name="floating_action_button_custom_query_hint">Custom Query</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_support">Get help</string>
 </resources>

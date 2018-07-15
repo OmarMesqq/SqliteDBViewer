@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_settings"
-        android:title="Settings"
+        android:title="@string/menu_settings"
         android:orderInCategory="1"
         app:showAsAction="never" />
     <item
@@ -16,5 +16,9 @@
         android:orderInCategory="3"
         android:title="@string/menu_about_title"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/menu_support"
+        android:orderInCategory="4"
+        android:title="@string/menu_support"
+        app:showAsAction="never" />
 </menu>

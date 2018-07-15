@@ -3,10 +3,12 @@ package com.orpheusdroid.sqliteviewer.ui;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -248,6 +250,13 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
                 return true;
             case R.id.donate:
                 startActivity(new Intent(this, DonateActivity.class));
+                return true;
+            case R.id.menu_support:
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/SQLiteViewer")));
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(this, "No browser app installed!", Toast.LENGTH_SHORT).show();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
