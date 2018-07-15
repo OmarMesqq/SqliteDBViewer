@@ -1,5 +1,9 @@
 package com.orpheusdroid.sqliteviewer;
 
+import android.os.Environment;
+
+import java.io.File;
+
 /**
  * Todo: Add class description here
  *
@@ -16,6 +20,10 @@ public class Const {
     public static final String LAST_CUSTOM_QUERY_PREFS = "last_custom_query";
     public static final String DBPathIntent = "db_path";
     public static final String DBTableNameIntent = "db_table_name";
+    public static final File EXTERNAL_STORAGE_DIR = new File(
+            Environment.getExternalStorageDirectory(), "SQLiteViewer");
+
+    public static final File CSV_EXPORT_DIR = new File(EXTERNAL_STORAGE_DIR, "CSV");
 
     public static String getColumnDataType(int type) {
         switch (type) {
