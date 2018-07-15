@@ -61,6 +61,7 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
     private static List<ColumnHeader> columnHeaders;
     private static TableDataActivity context;
     private BottomNavigationView bottomNavigationView;
+    private Spinner spinner;
     private final RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
@@ -231,9 +232,14 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
         }
     }
 
-    private List<String> addValuesToSpinner() {
+    private boolean shouldShowSpinner() {
         long divident = totalRows / tableViewRowCount;
-        divident = (totalRows / tableViewRowCount > 0) ? divident + 1 : divident;
+        return divident > 0;
+    }
+
+    private List<String> addValuesToSpinner() {
+        long divident = (totalRows / tableViewRowCount) + 1;
+        //divident = (totalRows / tableViewRowCount > 0) ? divident + 1 : divident;
 
         List<String> spinnerItems = new ArrayList<>();
         for (int i = 1; i <= divident; i++)
@@ -247,12 +253,12 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
         getMenuInflater().inflate(R.menu.menu_tabledata, menu);
 
         MenuItem item = menu.findItem(R.id.spinner);
-        Spinner spinner = (Spinner) item.getActionView();
+        spinner = (Spinner) item.getActionView();
 
-        List<String> spinnerItems = addValuesToSpinner();
+        //List<String> spinnerItems = addValuesToSpinner();
 
-        if (!spinnerItems.isEmpty()) {
-            adapter = new ArrayAdapter<>(this, R.layout.table_data_spinner_text_view, spinnerItems);
+        if (shouldShowSpinner()) {
+            adapter = new ArrayAdapter<>(this, R.layout.table_data_spinner_text_view, addValuesToSpinner());
             adapter.setDropDownViewResource(R.layout.table_data_spinner_drop_down_items);
             spinner.setAdapter(adapter);
             spinner.setOnItemSelectedListener(this);
@@ -340,14 +346,14 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
                 if ((offset + tableViewRowCount) < totalRows) {
                     offset += tableViewRowCount;
                     Log.d(Const.TAG, "Total: " + totalRows + ", offset :" + offset);
-                    refreshTableViewData();
+                    refreshPageSpinner(offset);
                 }
                 return true;
             case R.id.action_previous:
                 if (offset < totalRows && offset != 0) {
                     offset = ((offset - tableViewRowCount) > 0) ? offset - tableViewRowCount : 0;
                     Log.d(Const.TAG, "Total: " + totalRows + ", offset :" + offset);
-                    refreshTableViewData();
+                    refreshPageSpinner(offset);
                 }
                 return true;
             case R.id.action_export_csv:
@@ -355,6 +361,13 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
                 return true;
             default:
                 return true;
+        }
+    }
+
+    private void refreshPageSpinner(long offset) {
+        if (shouldShowSpinner()) {
+            long divident = (offset / (tableViewRowCount));
+            spinner.setSelection((int) divident);
         }
     }
 
