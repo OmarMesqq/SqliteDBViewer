@@ -22,7 +22,8 @@ public class MainActivity extends AwesomeSplash {
             startApp();
             return;
         }
-        configSplash.setBackgroundColor(R.color.colorAccent); //any color you want form colors.xml
+
+        configSplash.setBackgroundColor(R.color.splash_background); //any color you want form colors.xml
         configSplash.setAnimCircularRevealDuration(1000); //int ms
         configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
         configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
@@ -34,8 +35,8 @@ public class MainActivity extends AwesomeSplash {
 
         //Customize Title
         configSplash.setTitleSplash(getResources().getString(R.string.app_name));
-        configSplash.setTitleTextColor(android.R.color.primary_text_dark);
-        configSplash.setTitleTextSize(30f); //float value
+        configSplash.setTitleTextColor(R.color.splash_text);
+        configSplash.setTitleTextSize(45f); //float value
         configSplash.setAnimTitleDuration(700);
         configSplash.setAnimTitleTechnique(Techniques.FadeIn);
         configSplash.setTitleFont("font/Aspire-DemiBold.ttf");

@@ -7,4 +7,6 @@
     <color name="cell_background_color">#ffffff</color>
     <color name="cell_text_color">#1f1f1f</color>
     <color name="header_line_color">@android:color/holo_red_light</color>
+    <color name="splash_background">#C8DEFF</color>
+    <color name="splash_text">#4E88FF</color>
 </resources>

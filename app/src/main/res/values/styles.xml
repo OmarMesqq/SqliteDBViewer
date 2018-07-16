@@ -15,7 +15,7 @@
     </style>
 
     <style name="AppTheme.Splash" parent="AppTheme.NoActionBar">
-        <item name="colorPrimaryDark">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/splash_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
