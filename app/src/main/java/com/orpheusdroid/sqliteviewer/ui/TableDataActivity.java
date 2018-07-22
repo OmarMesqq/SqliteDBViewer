@@ -37,14 +37,14 @@ import com.orpheusdroid.sqliteviewer.model.TabelModel.FieldModel;
 import com.orpheusdroid.sqliteviewer.model.TabelModel.RowHeader;
 import com.orpheusdroid.sqliteviewer.utils.TableCellClickListener;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import de.siegmar.fastcsv.writer.CsvAppender;
+import de.siegmar.fastcsv.writer.CsvWriter;
 
 public class TableDataActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
         AdapterView.OnItemSelectedListener {
@@ -373,11 +373,20 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
 
     private static class WriteToCSV extends AsyncTask<Void, Integer, Void> {
         private ProgressDialog dialog;
-        private List<List<Cell>> data = new ArrayList<>();
+        private DataBase db;
         private File targetFile;
+        private int limit = -1;
+        private int offset = 0;
+        private int exportedRowCount = 0;
+        private int maxQueryCount;
 
         WriteToCSV(File targetFile) {
             this.targetFile = targetFile;
+            db = DataBase.getInstance(context);
+            maxQueryCount = Integer.parseInt(
+                    PreferenceManager.getDefaultSharedPreferences(context).getString(
+                            context.getString(R.string.preference_max_export_query_count_key), "50"
+                    ));
         }
 
         @Override
@@ -409,46 +418,60 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
 
         @Override
         protected Void doInBackground(Void... voids) {
-            generateData();
-            int totalRows = data.size();
-            try (BufferedWriter br = new BufferedWriter
-                    (new OutputStreamWriter(new FileOutputStream(targetFile), StandardCharsets.UTF_16))) {
+            int totalRows;
+            if (isCustomQuery) {
+                totalRows = (int) db.getCustomQueryCount(customQuery);
+            } else
+                totalRows = (int) db.getCount(tableName);
+            dialog.setMax(totalRows);
+            CsvWriter csvWriter = new CsvWriter();
+            try (CsvAppender br = csvWriter.append(targetFile, StandardCharsets.UTF_8)) {
                 for (int i = 0; i < columnHeaders.size(); i++) {
-                    br.write(columnHeaders.get(i).getData().toString());
-                    if (i != columnHeaders.size() - 1)
-                        br.write(",");
+                    br.appendField(columnHeaders.get(i).getData().toString());
                 }
-                br.newLine();
-                for (int rowCount = 0; rowCount < data.size(); rowCount++) {
-                    List<Cell> row = data.get(rowCount);
-                    for (int col = 0; col < row.size(); col++) {
-                        if (row.get(col).getData() == null) {
-                            br.write(" ");
-                        } else
-                            br.write(row.get(col).getData().toString());
-                        if (col != row.size() - 1)
-                            br.write(",");
-                    }
-                    publishProgress((int) ((rowCount / (float) totalRows) * 100));
-                    br.newLine();
-                }
+                br.endLine();
+                br.flush();
+                if (totalRows > maxQueryCount) {
+                    limit = maxQueryCount;
+                    do {
+                        writeToCSV(br, generateData());
+                        offset += limit;
+                    } while (offset < totalRows);
+                } else
+                    writeToCSV(br, generateData());
             } catch (IOException e) {
-
+                Toast.makeText(context, R.string.toast_message_failed_export_message, Toast.LENGTH_SHORT).show();
             }
             return null;
         }
 
-        private void generateData() {
-            // ToDo: Prevent OOM Exception by splitting the query with smaller chunks
+        private void writeToCSV(CsvAppender br, List<List<Cell>> data) throws IOException {
+            for (int rowCount = 0; rowCount < data.size(); rowCount++) {
+                List<Cell> row = data.get(rowCount);
+                for (int col = 0; col < row.size(); col++) {
+                    if (row.get(col).getData() == null) {
+                        br.appendField(" ");
+                    } else
+                        br.appendField(row.get(col).getData().toString());
+                }
+                br.endLine();
+                br.flush();
+                exportedRowCount++;
+            }
+            publishProgress(exportedRowCount);
+        }
+
+        private List<List<Cell>> generateData() {
             if (isCustomQuery) {
                 try {
-                    data = db.runQuery(customQuery, -1, 0);
+                    return db.runQuery(customQuery, limit, offset);
                 } catch (SQLiteException e) {
                     showCustomQueryErrorAlert(e.getMessage());
                 }
             } else {
-                data = db.getTableData(tableName, -1, 0);
+                return db.getTableData(tableName, limit, offset);
             }
+            return new ArrayList<>();
         }
     }
 }

@@ -15,12 +15,12 @@
     <string name="title_activity_settings">Settings</string>
     <string name="action_search">search</string>
     <string name="search_hint">search …</string>
-    <string name="preference_settings_table_row_count_key">table_row_count</string>
+    <string name="preference_settings_table_row_count_key" translatable="false">table_row_count</string>
     <string name="preference_settings_table_row_count_title">Number of rows per page</string>
     <string name="preference_settings_table_row_count_summary">Set the number of rows displayed per page</string>
     <string name="menu_donate">Donate</string>
     <string name="donate_activity_label">Donate</string>
-    <string name="preference_settings_splash_screen_key">splash_screen_key</string>
+    <string name="preference_settings_splash_screen_key" translatable="false">splash_screen_key</string>
     <string name="preference_settings_splash_screen_title">Enable/Disable splash screen</string>
     <string name="preference_settings_splash_screen_summary">Settings to enable/disable splash screen</string>
     <string name="table_cell_popup_menu_copy">Copy</string>
@@ -40,4 +40,14 @@
     <string name="floating_action_button_custom_query_hint">Custom Query</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_support">Get help</string>
+    <string name="preference_max_export_query_count_key" translatable="false">max_export_query_count</string>
+    <string name="prefs_category_table_view_settings_summary">Settings for table view</string>
+    <string name="prefs_category_table_view_settings_title">Table view settings</string>
+    <string name="prefs_category_export_settings_title">Export Settings</string>
+    <string name="prefs_category_export_settings_summary">Settings for exporting as csv</string>
+    <string name="prefs_max_export_query_count_title">Max query count</string>
+    <string name="prefs_max_export_query_count_summary">Set the number of rows to fetch per query. Note: Higher value will cause Out of memory error</string>
+    <string name="prefs_category_splash_screen_settings_summary">Settings for splash screen</string>
+    <string name="prefs_category_splash_screen_settings_title">Splash Screen</string>
+    <string name="toast_message_failed_export_message">Failed to write to file! Try again</string>
 </resources>

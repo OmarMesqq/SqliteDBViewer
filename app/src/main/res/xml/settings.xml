@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:summary="Settings for table view"
-        android:title="Table view settings">
+        android:summary="@string/prefs_category_table_view_settings_summary"
+        android:title="@string/prefs_category_table_view_settings_title">
         <EditTextPreference
             android:id="@+id/table_row_count"
             android:defaultValue="50"
@@ -14,8 +14,21 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:summary="Settings for splash screen"
-        android:title="Splash Screen">
+        android:summary="@string/prefs_category_export_settings_summary"
+        android:title="@string/prefs_category_export_settings_title">
+        <EditTextPreference
+            android:id="@+id/prefs_max_export_query_count"
+            android:defaultValue="50"
+            android:key="@string/preference_max_export_query_count_key"
+            android:maxLength="3"
+            android:numeric="integer"
+            android:summary="@string/prefs_max_export_query_count_summary"
+            android:title="@string/prefs_max_export_query_count_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:summary="@string/prefs_category_splash_screen_settings_summary"
+        android:title="@string/prefs_category_splash_screen_settings_title">
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/preference_settings_splash_screen_key"
