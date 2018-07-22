@@ -56,4 +56,5 @@
     <string name="preference_export_charset_title">Export file charset</string>
     <string name="preference_export_charset_summary">Charset for exported file Default: UTF-8</string>
     <string name="preference_export_charset_dialog_title">File charset</string>
+    <string name="toast_message_intent_filter_no_uri_data">No uri is passed! Cannot open database</string>
 </resources>
