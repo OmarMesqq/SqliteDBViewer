@@ -37,8 +37,10 @@ public class AboutActivity extends AppCompatActivity {
 
         TextView appVersion = findViewById(R.id.versionTxt);
         TextView iconCredit = findViewById(R.id.icon_credit_tv);
-        TextView libSuCredit = findViewById(R.id.video_editor_lib_credit_tv);
-        TextView tableViewCredit = findViewById(R.id.analytics_lib_credit_tv);
+        TextView libSuCredit = findViewById(R.id.root_library_credit_tv);
+        TextView tableViewCredit = findViewById(R.id.table_view_library_credit_tv);
+        TextView csvExportCredit = findViewById(R.id.csv_export_library_credit_tv);
+        TextView splashScreenCredit = findViewById(R.id.splash_screen_library_credit_tv);
         TextView openSourceInfo = findViewById(R.id.opensource_info_tv);
 
         iconCredit.setText(getString(R.string.app_icon_credit_Niko, "Niko Hörkkö", "http://nikosite.net"));
@@ -47,6 +49,12 @@ public class AboutActivity extends AppCompatActivity {
                 "Apache 2.0"));
         tableViewCredit.setText(getString(R.string.tableview_library_credit, "evrencoskun",
                 "https://github.com/evrencoskun/TableView",
+                "MIT Opensource License"));
+        csvExportCredit.setText(getString(R.string.csv_export_library_credit, "osiegmar",
+                "https://github.com/osiegmar/FastCSV",
+                "Apache-2.0"));
+        splashScreenCredit.setText(getString(R.string.splash_screen_library_credit, "ViksaaSkool",
+                "https://github.com/ViksaaSkool/AwesomeSplash",
                 "MIT Opensource License"));
         openSourceInfo.setText(getString(R.string.opensource_info, "https://gitlab.com/vijai/SqliteDBViewer", "GNU AGPLv3"));
 

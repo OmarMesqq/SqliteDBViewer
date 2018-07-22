@@ -6,6 +6,8 @@
     <string name="app_icon_credit_Niko">App Icons by %1$s\n\nwebsite: %2$s\n\nAll rights reserved by the designer with exclusive forever license for the official app only</string>
     <string name="libsu_library_credit">Root library by %1$s\n\nGithub url: %2$s\n\nLicense: %3$s</string>
     <string name="tableview_library_credit">TableView library by %1$s\n\nGithub url: %2$s\n\nLicense: %3$s</string>
+    <string name="csv_export_library_credit">FastCSV CSV export library by %1$s\n\nGithub URL: %2$s\n\nLicense: %3$s</string>
+    <string name="splash_screen_library_credit">AwesomeSplash library by %1$s\n\nGithub URL: %2$s\n\nLicense: %3$s</string>
     <string name="opensource_info">This app is opensourced and the source could be obained at \n\nGitlab url: %1$s\n\nLicense: %2$s</string>
     <string name="menu_about_title">About</string>
     <string name="storage_permission_request_title">Allow access to storage</string>

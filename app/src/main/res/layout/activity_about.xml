@@ -40,7 +40,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/versionTxt">
+        android:layout_above="@id/versionTxt"
+        android:scrollbars="none">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -84,7 +85,7 @@
                 card_view:cardCornerRadius="3dp">
 
                 <TextView
-                    android:id="@+id/video_editor_lib_credit_tv"
+                    android:id="@+id/root_library_credit_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:autoLink="web"
@@ -99,7 +100,37 @@
                 card_view:cardCornerRadius="3dp">
 
                 <TextView
-                    android:id="@+id/analytics_lib_credit_tv"
+                    android:id="@+id/table_view_library_credit_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:autoLink="web"
+                    android:padding="16dp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="16dp"
+                card_view:cardCornerRadius="3dp">
+
+                <TextView
+                    android:id="@+id/csv_export_library_credit_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:autoLink="web"
+                    android:padding="16dp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="16dp"
+                card_view:cardCornerRadius="3dp">
+
+                <TextView
+                    android:id="@+id/splash_screen_library_credit_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:autoLink="web"
