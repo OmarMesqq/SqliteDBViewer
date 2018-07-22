@@ -48,8 +48,12 @@
     <string name="prefs_category_export_settings_title">Export Settings</string>
     <string name="prefs_category_export_settings_summary">Settings for exporting as csv</string>
     <string name="prefs_max_export_query_count_title">Max query count</string>
-    <string name="prefs_max_export_query_count_summary">Set the number of rows to fetch per query. Note: Higher value will cause Out of memory error</string>
+    <string name="prefs_max_export_query_count_summary">Set the number of rows to fetch per query.\nNote: Higher value will cause Out of memory error</string>
     <string name="prefs_category_splash_screen_settings_summary">Settings for splash screen</string>
     <string name="prefs_category_splash_screen_settings_title">Splash Screen</string>
     <string name="toast_message_failed_export_message">Failed to write to file! Try again</string>
+    <string name="preference_export_charset_key" translatable="false">export_file_charset_key</string>
+    <string name="preference_export_charset_title">Export file charset</string>
+    <string name="preference_export_charset_summary">Charset for exported file Default: UTF-8</string>
+    <string name="preference_export_charset_dialog_title">File charset</string>
 </resources>

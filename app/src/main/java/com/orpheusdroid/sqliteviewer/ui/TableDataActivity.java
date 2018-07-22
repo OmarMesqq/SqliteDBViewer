@@ -39,7 +39,7 @@ import com.orpheusdroid.sqliteviewer.utils.TableCellClickListener;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -379,14 +379,18 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
         private int offset = 0;
         private int exportedRowCount = 0;
         private int maxQueryCount;
+        private Charset charset;
 
         WriteToCSV(File targetFile) {
             this.targetFile = targetFile;
             db = DataBase.getInstance(context);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             maxQueryCount = Integer.parseInt(
-                    PreferenceManager.getDefaultSharedPreferences(context).getString(
+                    prefs.getString(
                             context.getString(R.string.preference_max_export_query_count_key), "50"
                     ));
+            charset = Const.getEncodingType(prefs.getString(
+                    context.getString(R.string.preference_export_charset_key), "UTF-8"));
         }
 
         @Override
@@ -425,7 +429,7 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
                 totalRows = (int) db.getCount(tableName);
             dialog.setMax(totalRows);
             CsvWriter csvWriter = new CsvWriter();
-            try (CsvAppender br = csvWriter.append(targetFile, StandardCharsets.UTF_8)) {
+            try (CsvAppender br = csvWriter.append(targetFile, charset)) {
                 for (int i = 0; i < columnHeaders.size(); i++) {
                     br.appendField(columnHeaders.get(i).getData().toString());
                 }

@@ -3,6 +3,8 @@ package com.orpheusdroid.sqliteviewer;
 import android.os.Environment;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Todo: Add class description here
@@ -37,6 +39,25 @@ public class Const {
                 return "BLOB";
             default:
                 return "null";
+        }
+    }
+
+    public static Charset getEncodingType(String encoding) {
+        switch (encoding) {
+            case "UTF-8":
+                return StandardCharsets.UTF_8;
+            case "UTF-16":
+                return StandardCharsets.UTF_16;
+            case "UTF-16LE":
+                return StandardCharsets.UTF_16LE;
+            case "UTF-16BE":
+                return StandardCharsets.UTF_16BE;
+            case "US-ASCII":
+                return StandardCharsets.US_ASCII;
+            case "ISO–8859–1":
+                return StandardCharsets.ISO_8859_1;
+            default:
+                return StandardCharsets.UTF_8;
         }
     }
 }

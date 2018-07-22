@@ -43,6 +43,10 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
+    private String getValue(String key, String defVal) {
+        return prefs.getString(key, defVal);
+    }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         Preference pref = findPreference(s);
@@ -50,6 +54,8 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         switch (pref.getTitleRes()) {
             case R.string.preference_settings_table_row_count_title:
                 break;
+            case R.string.preference_export_charset_title:
+                pref.setSummary(getValue(getString(R.string.preference_export_charset_key), "UTF-8"));
         }
     }
 }
