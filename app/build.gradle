@@ -80,7 +80,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
-if (!getGradle().getStartParameter().getTaskRequests()
-        .toString().contains("playstore")){
+if (getGradle().getStartParameter().getTaskRequests()
+        .toString().contains("Playstore")){
     apply plugin: 'com.google.gms.google-services'
 }
