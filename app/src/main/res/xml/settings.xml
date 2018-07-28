@@ -43,4 +43,24 @@
             android:title="@string/preference_settings_splash_screen_title" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:summary="@string/prefs_category_analytics_settings_summary"
+        android:title="@string/prefs_category_analytics_settings_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/countly_basic_crash_reporting_key"
+            android:summary="@string/countly_basic_crash_reporting_summary"
+            android:title="@string/countly_basic_crash_reporting_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="@string/countly_basic_crash_reporting_key"
+            android:key="@string/countly_anonymous_usage_stats_key"
+            android:summary="@string/countly_anonymous_usage_stats_summary"
+            android:title="@string/countly_anonymous_usage_stats_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/countly_update_notification_key"
+            android:summary="@string/countly_update_notification_summary"
+            android:title="@string/countly_update_notification_title" />
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -21,4 +21,6 @@
     <string name="donate_dollar_2">Support with $2</string>
     <string name="donate_dollar_5">Support with $5</string>
     <string name="donate_paypal">Support with whatever you wish using paypal</string>
+    <string name="notification_channel_name">Update notification channel</string>
+    <string name="notification_channel_description">Notifications when new updates are available</string>
 </resources>

@@ -16,7 +16,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -66,7 +66,11 @@ dependencies {
 
     implementation 'de.siegmar:fastcsv:1.0.2'
 
+    fdroidImplementation 'ly.count.android:sdk:18.04'
+
+    playstoreImplementation 'ly.count.android:sdk-messaging-fcm:18.04'
     playstoreImplementation 'org.solovyev.android:checkout:1.2.1'
+    playstoreImplementation 'com.google.firebase:firebase-messaging:17.1.0'
 
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
@@ -74,4 +78,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+if (!getGradle().getStartParameter().getTaskRequests()
+        .toString().contains("playstore")){
+    apply plugin: 'com.google.gms.google-services'
 }

@@ -57,4 +57,20 @@
     <string name="preference_export_charset_summary">Charset for exported file Default: UTF-8</string>
     <string name="preference_export_charset_dialog_title">File charset</string>
     <string name="toast_message_intent_filter_no_uri_data">No uri is passed! Cannot open database</string>
+    <string name="countly_basic_crash_reporting_key">basic_crash_reporting_key</string>
+    <string name="countly_basic_crash_reporting_summary">Enable basic crash reporting. No crash data outside the app is collected</string>
+    <string name="countly_basic_crash_reporting_title">Enable basic crash reporting</string>
+    <string name="countly_update_notification_key">update_notification_key</string>
+    <string name="countly_update_notification_title">Show update notification</string>
+    <string name="countly_update_notification_summary">Show notification when there is an update to the app</string>
+    <string name="countly_anonymous_usage_stats_key">anonymous_usage_stats_key</string>
+    <string name="countly_anonymous_usage_stats_title">Anonymous usage statistics</string>
+    <string name="countly_anonymous_usage_stats_summary">Enable anonymous usage statistics. No personally identifiable information is collected</string>
+    <string name="alert_dialog_analytics_title">Allow anonymous analytics</string>
+    <string name="alert_dialog_analytics_message">Do you want to allow anonymous crash reporting and usage metrics now?\nRead the privacy policy to know more on what data are collected</string>
+    <string name="alert_dialog_analytics_positive_btn_text">Enable analytics</string>
+    <string name="alert_dialog_analytics_neutral_btn_text">Enable Crash reporting only</string>
+    <string name="alert_dialog_analytics_negative_btn_text">Disable everything</string>
+    <string name="prefs_category_analytics_settings_title">Analytics settings</string>
+    <string name="prefs_category_analytics_settings_summary">Manage analytics and crash reporting settings</string>
 </resources>

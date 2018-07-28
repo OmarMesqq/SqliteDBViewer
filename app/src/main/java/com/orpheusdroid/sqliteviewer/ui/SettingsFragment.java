@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
 
+import com.orpheusdroid.sqliteviewer.BuildConfig;
 import com.orpheusdroid.sqliteviewer.R;
 
 /**
@@ -26,6 +28,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         prefs = getPreferenceScreen().getSharedPreferences();
 
         rowCount = (EditTextPreference) findPreference(getString(R.string.preference_settings_table_row_count_key));
+
+        SwitchPreference updateNotification = (SwitchPreference) findPreference(getString(R.string.countly_update_notification_key));
+        if (BuildConfig.FLAVOR == "fdroid") {
+            updateNotification.setSummary("Update notification not available on fdroid builds");
+            updateNotification.setChecked(false);
+            updateNotification.setEnabled(false);
+        }
     }
 
     @Override

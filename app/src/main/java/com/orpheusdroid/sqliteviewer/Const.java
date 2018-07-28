@@ -15,6 +15,9 @@ public class Const {
 
     public static final String DBCustomQueryIntent = "db_custom_query";
 
+    public static final String COUNTLY_USAGE_STATS_GROUP_NAME = "analytics_group";
+    public static final String PREFS_REQUEST_ANALYTICS_PERMISSION = "request_analytics_permission";
+
     public static final int EXTDIR_REQUEST_CODE = 1000;
     public static final String TAG = "SQLiteViewer";
     public static final String FILEMANAGER_PREFS = "File_Manager";

@@ -16,14 +16,23 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.orpheusdroid.sqliteviewer">
 
-    <application
-        android:name=".ScreenCamApp"
-        tools:replace="android:name">
+    <permission
+        android:name="com.orpheusdroid.sqliteviewer.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.orpheusdroid.sqliteviewer.permission.C2D_MESSAGE" />
+
+    <application android:name=".ScreenCamApp">
         <activity
             android:name="com.orpheusdroid.sqliteviewer.DonateActivity"
             android:label="@string/donate_activity_label" />
+
+        <service android:name=".service.CountlyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>

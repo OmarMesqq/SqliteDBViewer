@@ -7,11 +7,13 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -41,6 +43,8 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import ly.count.android.sdk.Countly;
 
 public class FileManagerActivity extends AppCompatActivity implements IListItemClickListener {
     private RecyclerView FilesView;
@@ -89,7 +93,22 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
                 }
             }
         });
+        requestAnalyticsPermission();
+        Countly.onCreate(this);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Countly.sharedInstance().onStart(this);
+        Log.d(Const.TAG, "Countly started");
+    }
+
+    @Override
+    protected void onStop() {
+        Countly.sharedInstance().onStop();
+        Log.d(Const.TAG, "Countly stopped");
+        super.onStop();
     }
 
     private void checkPermission() {
@@ -99,6 +118,45 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
         } else {
             new GenerateFilesList(false).execute();
         }
+    }
+
+    private void requestAnalyticsPermission() {
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!prefs.getBoolean(Const.PREFS_REQUEST_ANALYTICS_PERMISSION, true))
+            return;
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.alert_dialog_analytics_title)
+                .setMessage(R.string.alert_dialog_analytics_message)
+                .setPositiveButton(R.string.alert_dialog_analytics_positive_btn_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        prefs.edit()
+                                .putBoolean(getString(R.string.countly_basic_crash_reporting_key), true)
+                                .putBoolean(getString(R.string.countly_anonymous_usage_stats_key), true)
+                                .putBoolean(Const.PREFS_REQUEST_ANALYTICS_PERMISSION, false)
+                                .apply();
+                    }
+                })
+                .setNeutralButton(R.string.alert_dialog_analytics_neutral_btn_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        prefs.edit()
+                                .putBoolean(getString(R.string.countly_basic_crash_reporting_key), true)
+                                .putBoolean(Const.PREFS_REQUEST_ANALYTICS_PERMISSION, false)
+                                .apply();
+                    }
+                })
+                .setNegativeButton(R.string.alert_dialog_analytics_negative_btn_text, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        prefs.edit()
+                                .putBoolean(Const.PREFS_REQUEST_ANALYTICS_PERMISSION, false)
+                                .apply();
+                    }
+                })
+                .setCancelable(false)
+                .create().show();
     }
 
     private void refreshList() {
