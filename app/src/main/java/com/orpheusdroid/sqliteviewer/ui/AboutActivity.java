@@ -73,15 +73,23 @@ public class AboutActivity extends AppCompatActivity {
                     .append(" V")
                     .append(BuildConfig.VERSION_NAME)
                     .append("\n Internal Build. Not to be released");
-            //set the text as html to get copyright symbol
-            appVersion.setText(fromHtml(copyRight.toString()));
         } else {
             copyRight.append(getResources().getString(R.string.app_name))
                     .append(" V")
                     .append(BuildConfig.VERSION_NAME);
-            //set the text as html to get copyright symbol
-            appVersion.setText(fromHtml(copyRight.toString()));
         }
+        switch (BuildConfig.FLAVOR) {
+            case "playstore":
+                copyRight.append(" PlayStore");
+                break;
+            case "fdroid":
+                copyRight.append(" Fdroid");
+                break;
+        }
+        if (BuildConfig.DEBUG)
+            copyRight.append(" Debug version");
+        //set the text as html to get copyright symbol
+        appVersion.setText(fromHtml(copyRight.toString()));
     }
 
     @Override
