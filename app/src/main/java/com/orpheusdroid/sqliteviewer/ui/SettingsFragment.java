@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.orpheusdroid.sqliteviewer.BuildConfig;
 import com.orpheusdroid.sqliteviewer.R;
@@ -65,6 +66,13 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
                 break;
             case R.string.preference_export_charset_title:
                 pref.setSummary(getValue(getString(R.string.preference_export_charset_key), "UTF-8"));
+                break;
+            case R.string.countly_basic_crash_reporting_title:
+
+            case R.string.countly_anonymous_usage_stats_title:
+                Toast.makeText(this.getActivity(), R.string.toast_message_analytics_app_restart_required_message, Toast.LENGTH_SHORT).show();
+                break;
+
         }
     }
 }

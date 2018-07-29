@@ -136,6 +136,7 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
                                 .putBoolean(getString(R.string.countly_anonymous_usage_stats_key), true)
                                 .putBoolean(Const.PREFS_REQUEST_ANALYTICS_PERMISSION, false)
                                 .apply();
+                        showAppRestartToast();
                     }
                 })
                 .setNeutralButton(R.string.alert_dialog_analytics_neutral_btn_text, new DialogInterface.OnClickListener() {
@@ -145,6 +146,7 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
                                 .putBoolean(getString(R.string.countly_basic_crash_reporting_key), true)
                                 .putBoolean(Const.PREFS_REQUEST_ANALYTICS_PERMISSION, false)
                                 .apply();
+                        showAppRestartToast();
                     }
                 })
                 .setNegativeButton(R.string.alert_dialog_analytics_negative_btn_text, new DialogInterface.OnClickListener() {
@@ -157,6 +159,10 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
                 })
                 .setCancelable(false)
                 .create().show();
+    }
+
+    private void showAppRestartToast() {
+        Toast.makeText(this, R.string.toast_message_analytics_app_restart_required_message, Toast.LENGTH_SHORT).show();
     }
 
     private void refreshList() {

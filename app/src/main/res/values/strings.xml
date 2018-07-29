@@ -73,4 +73,5 @@
     <string name="alert_dialog_analytics_negative_btn_text">Disable everything</string>
     <string name="prefs_category_analytics_settings_title">Analytics settings</string>
     <string name="prefs_category_analytics_settings_summary">Manage analytics and crash reporting settings</string>
+    <string name="toast_message_analytics_app_restart_required_message">Analytics settings changes will take effect from next app launch</string>
 </resources>
