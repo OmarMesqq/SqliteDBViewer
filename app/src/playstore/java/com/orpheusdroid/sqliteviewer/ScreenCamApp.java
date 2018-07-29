@@ -57,10 +57,9 @@ public class ScreenCamApp extends BaseApplication {
                 notificationManager.createNotificationChannel(channel);
             }
         }
-        setupAnalytics();
     }
 
-    private void setupAnalytics() {
+    public void setupAnalytics() {
         Countly.sharedInstance()
                 .setRequiresConsent(true)
                 .setPushIntentAddMetadata(true)
@@ -71,7 +70,8 @@ public class ScreenCamApp extends BaseApplication {
                 .enableCrashReporting();
 
         String[] groupFeatures = new String[]{Countly.CountlyFeatureNames.sessions
-                , Countly.CountlyFeatureNames.users, Countly.CountlyFeatureNames.events};
+                , Countly.CountlyFeatureNames.users, Countly.CountlyFeatureNames.events
+                , Countly.CountlyFeatureNames.starRating};
         Countly.sharedInstance().CreateFeatureGroup(Const.COUNTLY_USAGE_STATS_GROUP_NAME, groupFeatures);
 
         boolean isUsageStatsEnabled = PreferenceManager
@@ -93,11 +93,6 @@ public class ScreenCamApp extends BaseApplication {
 
         CountlyPush.init(this, Countly.CountlyMessagingMode.PRODUCTION);
         Log.d(Const.TAG, "Countly setup");
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
     }
 
     private static ScreenCamApp sInstance;

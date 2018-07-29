@@ -16,10 +16,9 @@ public class ScreenCamApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        setupAnalytics();
     }
 
-    private void setupAnalytics(){
+    public void setupAnalytics(){
         Countly.sharedInstance()
                 .setRequiresConsent(true)
                 .setLoggingEnabled(true)
