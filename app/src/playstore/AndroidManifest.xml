@@ -23,7 +23,7 @@
         android:protectionLevel="signature" />
     <uses-permission android:name="com.orpheusdroid.sqliteviewer.permission.C2D_MESSAGE" />
 
-    <application android:name=".ScreenCamApp">
+    <application android:name=".SQLiteViewerApp">
         <activity
             android:name="com.orpheusdroid.sqliteviewer.DonateActivity"
             android:label="@string/donate_activity_label" />

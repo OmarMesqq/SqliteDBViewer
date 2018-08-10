@@ -35,7 +35,7 @@ import ly.count.android.sdk.messaging.CountlyPush;
  *
  * @author Vijai Chandra Prasad .R
  */
-public class ScreenCamApp extends BaseApplication {
+public class SQLiteViewerApp extends BaseApplication {
 
     @Override
     public void onCreate() {
@@ -95,7 +95,7 @@ public class ScreenCamApp extends BaseApplication {
         Log.d(Const.TAG, "Countly setup");
     }
 
-    private static ScreenCamApp sInstance;
+    private static SQLiteViewerApp sInstance;
 
     private final Billing mBilling = new Billing(this, new Billing.DefaultConfiguration() {
         @Override
@@ -104,11 +104,11 @@ public class ScreenCamApp extends BaseApplication {
         }
     });
 
-    public ScreenCamApp() {
+    public SQLiteViewerApp() {
         sInstance = this;
     }
 
-    public static ScreenCamApp get() {
+    public static SQLiteViewerApp get() {
         return sInstance;
     }
 

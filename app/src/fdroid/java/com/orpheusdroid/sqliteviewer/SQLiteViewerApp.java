@@ -11,7 +11,7 @@ import ly.count.android.sdk.DeviceId;
  *
  * @author Vijai Chandra Prasad .R
  */
-public class ScreenCamApp extends BaseApplication {
+public class SQLiteViewerApp extends BaseApplication {
 
     @Override
     public void onCreate() {

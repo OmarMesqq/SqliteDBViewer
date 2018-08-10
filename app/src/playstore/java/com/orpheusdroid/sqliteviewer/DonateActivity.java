@@ -19,12 +19,10 @@ package com.orpheusdroid.sqliteviewer;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -41,7 +39,7 @@ import javax.annotation.Nonnull;
 
 public class DonateActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private final ActivityCheckout mCheckout = Checkout.forActivity(this, ScreenCamApp.get().getBilling());
+    private final ActivityCheckout mCheckout = Checkout.forActivity(this, SQLiteViewerApp.get().getBilling());
     private Inventory mInventory;
 
     @Override

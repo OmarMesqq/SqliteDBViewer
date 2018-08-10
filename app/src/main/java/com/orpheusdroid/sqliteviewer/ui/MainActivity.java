@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.orpheusdroid.sqliteviewer.R;
-import com.orpheusdroid.sqliteviewer.ScreenCamApp;
+import com.orpheusdroid.sqliteviewer.SQLiteViewerApp;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
@@ -16,7 +16,7 @@ public class MainActivity extends AwesomeSplash {
     @Override
     public void initSplash(ConfigSplash configSplash) {
 
-        ((ScreenCamApp) getApplication()).setupAnalytics();
+        ((SQLiteViewerApp) getApplication()).setupAnalytics();
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
