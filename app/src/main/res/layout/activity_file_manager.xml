@@ -11,15 +11,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ProgressBar
-            android:id="@+id/filemanager_progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:indeterminate="true"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/currentPath_tv"
             android:layout_width="match_parent"
@@ -57,10 +48,16 @@
             android:layout_margin="1dp"
             android:background="@android:color/darker_gray" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/filesList"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filesList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -17,6 +17,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,17 +46,17 @@ import java.util.Collections;
 
 import ly.count.android.sdk.Countly;
 
-public class FileManagerActivity extends AppCompatActivity implements IListItemClickListener {
+public class FileManagerActivity extends AppCompatActivity implements IListItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView FilesView;
     private LinearLayoutManager mLayoutManager;
     private LinearLayout dirUp;
     private TextView currentPathTV;
-    private ProgressBar progressBar;
     private boolean isRoot = false;
     private FileManagerAdapter adapter;
     private SearchView searchView;
     private SharedPreferenceManager prefs;
     private File selectedDir;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ArrayList<FilesModel> files = new ArrayList<>();
 
@@ -67,7 +67,6 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
 
         FilesView = findViewById(R.id.filesList);
         currentPathTV = findViewById(R.id.currentPath_tv);
-        progressBar = findViewById(R.id.filemanager_progress);
 
         prefs = SharedPreferenceManager.getInstance(this);
         String lastDirLocation = prefs.getString(Const.FILEMANAGER_PREFS,
@@ -80,6 +79,14 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
             Toast.makeText(this, "Storage permission is required to view databases",Toast.LENGTH_SHORT).show();
             finish();
         }*/
+
+        swipeRefreshLayout = findViewById(R.id.swipeContainer);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
         checkPermission();
 
         dirUp.setOnClickListener(new View.OnClickListener() {
@@ -326,6 +333,11 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRefresh() {
+        new GenerateFilesList(true).execute();
+    }
+
     private class GenerateFilesList extends AsyncTask<Void, Void, ArrayList<FilesModel>> {
         private boolean isReplaceModel;
         private boolean hasListingFailed;
@@ -337,7 +349,7 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(true);
             FilesView.setClickable(false);
             dirUp.setClickable(false);
         }
@@ -348,7 +360,7 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
                 Toast.makeText(FileManagerActivity.this, "No root access. Cannot list root files", Toast.LENGTH_SHORT)
                         .show();
             FileManagerActivity.this.files = filesModels;
-            progressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
             FilesView.setClickable(true);
             dirUp.setClickable(true);
             if (isReplaceModel)
