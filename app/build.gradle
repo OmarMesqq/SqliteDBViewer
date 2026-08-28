@@ -71,17 +71,15 @@ dependencies {
 
     // External libraries
     implementation "com.github.topjohnwu:libsu:2.0.0"
-    implementation 'com.evrencoskun.library:tableview:0.8.8'
+    implementation 'com.github.evrencoskun:TableView:0.8.8'
     implementation('com.github.ViksaaSkool:AwesomeSplash:v1.0.0', {
         exclude group: 'com.android.support'
     })
     implementation 'de.siegmar:fastcsv:1.0.2'
 
     // Libraries to include in Fdroid flavour only
-    fdroidImplementation 'ly.count.android:sdk:18.04'
 
     // Libraries to include in playstore flavour only
-    playstoreImplementation 'ly.count.android:sdk-messaging-fcm:18.04'
     playstoreImplementation 'org.solovyev.android:checkout:1.2.1'
     playstoreImplementation 'com.google.firebase:firebase-messaging:17.1.0'
 

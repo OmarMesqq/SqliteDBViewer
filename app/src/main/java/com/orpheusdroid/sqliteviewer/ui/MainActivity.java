@@ -16,8 +16,6 @@ public class MainActivity extends AwesomeSplash {
     @Override
     public void initSplash(ConfigSplash configSplash) {
 
-        ((SQLiteViewerApp) getApplication()).setupAnalytics();
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (!prefs.getBoolean(getString(R.string.preference_settings_splash_screen_key), true)) {

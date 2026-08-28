@@ -44,7 +44,6 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ly.count.android.sdk.Countly;
 
 public class FileManagerActivity extends AppCompatActivity implements IListItemClickListener, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView FilesView;
@@ -101,20 +100,15 @@ public class FileManagerActivity extends AppCompatActivity implements IListItemC
             }
         });
         requestAnalyticsPermission();
-        Countly.onCreate(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Countly.sharedInstance().onStart(this);
-        Log.d(Const.TAG, "Countly started");
     }
 
     @Override
     protected void onStop() {
-        Countly.sharedInstance().onStop();
-        Log.d(Const.TAG, "Countly stopped");
         super.onStop();
     }
 

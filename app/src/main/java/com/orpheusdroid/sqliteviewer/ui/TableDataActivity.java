@@ -45,7 +45,6 @@ import java.util.List;
 
 import de.siegmar.fastcsv.writer.CsvAppender;
 import de.siegmar.fastcsv.writer.CsvWriter;
-import ly.count.android.sdk.Countly;
 
 public class TableDataActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,
         AdapterView.OnItemSelectedListener {
@@ -218,20 +217,15 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
         table.setTableViewListener(new TableCellClickListener(this, bottomBarDialog));
         table.getCellRecyclerView().addOnScrollListener(onScrollListener);
         mTableViewAdapter.setAllItems(columnHeaders, Rowheader, tableData);
-
-        Countly.onCreate(this);
-        Countly.sharedInstance().recordEvent("Table opened");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Countly.sharedInstance().onStart(this);
     }
 
     @Override
     protected void onStop() {
-        Countly.sharedInstance().onStop();
         super.onStop();
     }
 
@@ -426,7 +420,6 @@ public class TableDataActivity extends AppCompatActivity implements BottomNaviga
         protected void onPostExecute(Void aVoid) {
             dialog.dismiss();
             Toast.makeText(context, R.string.toast_message_export_success, Toast.LENGTH_SHORT).show();
-            Countly.sharedInstance().recordEvent("Table exported");
             super.onPostExecute(aVoid);
         }
 

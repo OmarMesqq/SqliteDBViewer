@@ -32,7 +32,6 @@ import com.orpheusdroid.sqliteviewer.listeners.IListItemClickListener;
 import java.io.File;
 import java.util.ArrayList;
 
-import ly.count.android.sdk.Countly;
 
 public class TableList extends AppCompatActivity implements IListItemClickListener {
     private String dbPath;
@@ -90,19 +89,15 @@ public class TableList extends AppCompatActivity implements IListItemClickListen
             Toast.makeText(this, "Not a database", Toast.LENGTH_SHORT).show();
             finish();
         }
-        Countly.onCreate(this);
-        Countly.sharedInstance().recordEvent("Database opened");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Countly.sharedInstance().onStart(this);
     }
 
     @Override
     protected void onStop() {
-        Countly.sharedInstance().onStop();
         super.onStop();
     }
 
