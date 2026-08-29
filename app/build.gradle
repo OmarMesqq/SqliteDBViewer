@@ -17,7 +17,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
@@ -28,8 +28,6 @@ android {
         }
     }
 }
-
-android.buildTypes.release.signingConfig = null
 
 ext.supportLibraryVersion = '27.1.1'
 ext.constraintLayoutLibraryVersion = '1.1.2'
